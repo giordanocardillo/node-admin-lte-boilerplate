@@ -1,5 +1,5 @@
 const indexTemplate = require('Templates/index.hbs')
-const homeTemplate = require('Contents/home.hbs')
+const dashboard1 = require('Contents/dashboard-1.hbs')
 
 require('jquery-ui')
 require('jquery-ui/ui/widgets/sortable')
@@ -13,21 +13,18 @@ require('jvectormap')
 require('../lib/jquery-jvectormap-world-mill-en')
 require('bootstrap-datepicker')
 require('jquery-slimscroll')
+//require('bootstrap3-wysihtml5-bower/dist/amd/bootstrap3-wysihtml5.all')
 
 module.exports = {
   load(ctx, next) {
     $('.wrapper').html(indexTemplate({
-      template: homeTemplate(),
+      template: dashboard1(),
       title: 'Dashboard',
       subtitle: 'Control panel',
-    }))
+    })).trigger('resize')
     next()
   },
   show() {
-    if ($.AdminLTE.layout) {
-      $.AdminLTE.layout.activate()
-    }
-
     $('.connectedSortable').sortable({
       placeholder: 'sort-highlight',
       connectWith: '.connectedSortable',
@@ -44,6 +41,8 @@ module.exports = {
       forcePlaceholderSize: true,
       zIndex: 999999,
     })
+
+    //$('.textarea').wysihtml5()
 
     $('.daterange').daterangepicker({
       ranges: {

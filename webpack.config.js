@@ -62,6 +62,9 @@ module.exports = (env) => {
       },
     },
     module: {
+      noParse(content) {
+        return /noparse/.test(content)
+      },
       loaders: [
         {
           test: require.resolve('jquery'),

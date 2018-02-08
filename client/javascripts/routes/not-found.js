@@ -7,12 +7,9 @@ module.exports = {
       template: notFoundTemplate(),
       title: 'Error',
       subtitle: 'Page not found',
-    }))
+    })).trigger('resize')
     next()
   },
   show(ctx) {
-    if ($.AdminLTE.layout) {
-      $.AdminLTE.layout.activate()
-    }
   },
 }
