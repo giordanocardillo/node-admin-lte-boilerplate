@@ -13,7 +13,6 @@ require('jvectormap')
 require('../lib/jquery-jvectormap-world-mill-en')
 require('bootstrap-datepicker')
 require('jquery-slimscroll')
-//require('bootstrap3-wysihtml5-bower/dist/amd/bootstrap3-wysihtml5.all')
 
 module.exports = {
   load(ctx, next) {
@@ -42,7 +41,6 @@ module.exports = {
       zIndex: 999999,
     })
 
-    //$('.textarea').wysihtml5()
 
     $('.daterange').daterangepicker({
       ranges: {
