@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const noop = require('noop-webpack-plugin')
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
@@ -9,10 +10,10 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 module.exports = (env) => {
   const isProduction = env === 'production'
 
-  const clean = isProduction ? new CleanWebpackPlugin([path.resolve(__dirname, 'public', 'generated')]) : noop()
+  const clean = new CleanWebpackPlugin([path.resolve(__dirname, 'public')])
 
   const extractText = new ExtractTextPlugin({
-    filename: '[name].min.css',
+    filename: '[name].min.css?[hash]',
     allChunks: true,
   })
 
@@ -22,23 +23,29 @@ module.exports = (env) => {
     sourceMap: true,
   }) : noop()
 
+  const htmlWebpackPlugin = new HtmlWebpackPlugin({
+    inject: true,
+    template: path.resolve(__dirname, 'client', 'public', 'index.html'),
+    favicon: path.resolve(__dirname, 'client', 'public', 'favicon.ico')
+  })
+
   const providePlugin = new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-    Raphael: 'raphael',
-    moment: 'moment',
-    'window.$': 'jquery',
-    'window.jQuery': 'jquery',
-    'window.Raphael': 'raphael',
-    'window.moment': 'moment',
+    $: require.resolve('jquery'),
+    jQuery: require.resolve('jquery'),
+    Raphael: require.resolve('raphael'),
+    moment: require.resolve('moment'),
+    'window.$': require.resolve('jquery'),
+    'window.jQuery': require.resolve('jquery'),
+    'window.Raphael': require.resolve('raphael'),
+    'window.moment': require.resolve('moment'),
   })
 
   const commonChunks = new webpack.optimize.CommonsChunkPlugin({
     name: 'vendor',
     minChunks(module) {
-      if (module.resource && (/^.*\.(css|less)$/).test(module.resource)) {
+      /*if (module.resource && (/^.*\.(css|less)$/).test(module.resource)) {
         return false
-      }
+      }*/
       return module.context && module.context.includes('node_modules')
     },
   })
@@ -49,8 +56,8 @@ module.exports = (env) => {
       bundle: ['babel-polyfill', './entry.js'],
     },
     output: {
-      filename: '[name].min.js',
-      path: path.resolve(__dirname, 'public', 'generated'),
+      filename: '[name].min.js?[hash]',
+      path: path.resolve(__dirname, 'public'),
     },
     resolve: {
       extensions: ['.js'],
@@ -59,6 +66,7 @@ module.exports = (env) => {
         Routes: path.resolve(__dirname, 'client', 'javascripts', 'routes'),
         Contents: path.resolve(__dirname, 'client', 'templates', 'contents'),
         Libraries: path.resolve(__dirname, 'client', 'javascripts', 'lib'),
+        Stylesheets: path.resolve(__dirname, 'client', 'stylesheets'),
       },
     },
     module: {
@@ -69,28 +77,28 @@ module.exports = (env) => {
         {
           test: require.resolve('jquery'),
           use: [{
-            loader: 'expose-loader',
+            loader: require.resolve('expose-loader'),
             options: 'jQuery',
           }, {
-            loader: 'expose-loader',
+            loader: require.resolve('expose-loader'),
             options: '$',
           }],
         },
         {
           test: require.resolve('moment'),
           use: [{
-            loader: 'expose-loader',
+            loader: require.resolve('expose-loader'),
             options: 'moment',
           }],
         },
         {
           test: /\.js$/,
-          exclude: /(node_modules|public)/,
-          loader: 'babel-loader',
+          exclude: /(?:node_modules|public)/,
+          loader: require.resolve('babel-loader'),
         }, {
-          test: /\.(hbs|handlebars)$/,
-          exclude: /(node_modules|public)/,
-          loader: 'handlebars-loader',
+          test: /\.(?:hbs|handlebars)$/,
+          exclude: /(?:node_modules|public)/,
+          loader: require.resolve('handlebars-loader'),
           query: {
             partialDirs: [
               path.resolve(__dirname, 'client', 'templates', 'partials'),
@@ -101,16 +109,16 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\.(ttf|eot|svg|woff2?)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file-loader',
+          test: /\.(?:ttf|eot|svg|woff2?)(?:\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          loader: require.resolve('file-loader'),
           options: {
             name: '[name].[ext]',
             publicPath: '',
             outputPath: 'fonts/',
           },
         }, {
-          test: /\.(png|jpg|gif)$/,
-          loader: 'file-loader',
+          test: /\.(?:png|jpg|gif)$/,
+          loader: require.resolve('file-loader'),
           options: {
             name: '[name].[ext]',
             outputPath: 'images/',
@@ -118,20 +126,47 @@ module.exports = (env) => {
           },
         },
         {
-          test: /\.(less)$/,
+          test: /\.(?:le|c)ss$/,
+          exclude: path.resolve(__dirname, 'client', 'stylesheets', 'routes'),
           loader: extractText.extract({
             publicPath: '/',
             fallback: 'style-loader',
             use: [
               {
-                loader: 'css-loader',
+                loader: require.resolve('css-loader'),
                 options: {
                   sourceMap: true,
                   minimize: true,
                 },
               },
               {
-                loader: 'less-loader',
+                loader: require.resolve('less-loader'),
+                options: {
+                  sourceMap: true,
+                  minimize: true,
+                },
+              },
+            ],
+          }),
+        },
+        {
+          test: /\.(?:le|c)ss$/,
+          include: path.resolve(__dirname, 'client', 'stylesheets', 'routes'),
+          loader: extractText.extract({
+            publicPath: '/',
+            fallback: require.resolve('style-loader'),
+            use: [
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  sourceMap: true,
+                  minimize: true,
+                  modules: true,
+                  localIdentName: '[name]__[local]--[hash:base64:8]',
+                },
+              },
+              {
+                loader: require.resolve('less-loader'),
                 options: {
                   sourceMap: true,
                   minimize: true,
@@ -143,6 +178,7 @@ module.exports = (env) => {
       ],
     },
     plugins: [
+      htmlWebpackPlugin,
       clean,
       uglifyJS,
       commonChunks,
@@ -152,7 +188,7 @@ module.exports = (env) => {
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
       contentBase: path.join(__dirname, 'public'),
-      publicPath: '/generated/',
+      publicPath: '/',
       historyApiFallback: true,
       port: 3000,
     },

@@ -1,10 +1,11 @@
-const indexTemplate = require('Templates/index.hbs')
-const notFoundTemplate = require('Templates/contents/not-found.hbs')
+import indexTemplate from 'Templates/index.hbs'
+import styles from 'Stylesheets/routes/not-found.less'
 
-module.exports = {
+const notFound = {
   load(ctx, next) {
     $('.wrapper').html(indexTemplate({
-      template: notFoundTemplate(),
+      styles,
+      template: 'not-found',
       title: 'Error',
       subtitle: 'Page not found',
     })).trigger('resize')
@@ -13,3 +14,5 @@ module.exports = {
   show(ctx) {
   },
 }
+
+export default notFound

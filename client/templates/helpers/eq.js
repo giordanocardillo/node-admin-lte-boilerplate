@@ -1,1 +1,4 @@
-module.exports = (a, b) => a === b;
+const eq = (a, b) => a === b
+
+export default eq
+

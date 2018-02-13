@@ -1,9 +1,11 @@
-const page = require('page')
-const index = require('Routes/index')
-const notFound = require('Routes/not-found')
+import page from 'page'
+import index from 'Routes/index'
+import notFound from 'Routes/not-found'
 
-module.exports = () => {
+const router = () => {
   page('/', index.load, index.show)
   page('*', notFound.load, notFound.show)
   page()
 }
+
+export default router

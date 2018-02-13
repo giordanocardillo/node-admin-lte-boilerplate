@@ -1,4 +1,4 @@
-<div class="page-index">
+<div>
   {{> header}}
   {{> sidebar}}
   <div class="content-wrapper">
@@ -14,7 +14,7 @@
         <li class="active">{{title}}</li>
       </ol>
     </section>
-    {{{template}}}
+    {{> (dynamicContent template) }}
   </div>
   {{> footer}}
   {{> control-sidebar}}

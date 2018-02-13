@@ -1,23 +1,25 @@
-const indexTemplate = require('Templates/index.hbs')
-const dashboard1 = require('Contents/dashboard-1.hbs')
+import indexTemplate from 'Templates/index.hbs'
 
-require('jquery-ui')
-require('jquery-ui/ui/widgets/sortable')
+import styles from 'Stylesheets/routes/dashboard-1.less'
 
-require('morris.js/morris')
-require('jquery-knob')
-require('jquery-sparkline')
-require('icheck')
-require('daterangepicker')
-require('jvectormap')
-require('../lib/jquery-jvectormap-world-mill-en')
-require('bootstrap-datepicker')
-require('jquery-slimscroll')
+import 'jquery-ui'
+import 'jquery-ui/ui/widgets/sortable'
 
-module.exports = {
+import 'morris.js/morris'
+import 'jquery-knob'
+import 'jquery-sparkline'
+import 'icheck'
+import 'daterangepicker'
+import 'jvectormap'
+import '../lib/jquery-jvectormap-world-mill-en'
+import 'bootstrap-datepicker'
+import 'jquery-slimscroll'
+
+const index = {
   load(ctx, next) {
     $('.wrapper').html(indexTemplate({
-      template: dashboard1(),
+      styles,
+      template: 'dashboard-1',
       title: 'Dashboard',
       subtitle: 'Control panel',
     })).trigger('resize')
@@ -211,3 +213,5 @@ module.exports = {
     })
   },
 }
+
+export default index
