@@ -190,6 +190,7 @@ import indexTemplate from 'Templates/index.hbs'
 ### `templates/contents` directory
 This folder holds all the sub-templates that need to be rendered inside the `index.hbs` template by the
 `dynamicContent` that loads only templates defined in this directory.
+
 **NOTE** The `dynamicContent` helper was necessary because of a [handlebars-loader](https://github.com/pcardune/handlebars-loader) bug, which doesn't allow dynamic template import. When the library gets fixed, it could be removed from this boilerplate.
 
 ### `templates/helpers` directory
