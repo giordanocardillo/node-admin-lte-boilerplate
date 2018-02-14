@@ -13,7 +13,7 @@ import 'jquery-sparkline'
 import 'icheck'
 import 'daterangepicker'
 import 'jvectormap'
-import '../lib/jquery-jvectormap-world-mill-en'
+import 'Libraries/jquery-jvectormap-world-mill-en'
 
 
 const index = {
