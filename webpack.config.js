@@ -13,7 +13,7 @@ module.exports = (env) => {
   const clean = new CleanWebpackPlugin([path.resolve(__dirname, 'public')])
 
   const extractText = new ExtractTextPlugin({
-    filename: '[name].min.css?[hash]',
+    filename: 'stylesheets/[name].min.css?[hash]',
     allChunks: true,
   })
 
@@ -25,8 +25,8 @@ module.exports = (env) => {
 
   const htmlWebpackPlugin = new HtmlWebpackPlugin({
     inject: true,
-    template: path.resolve(__dirname, 'client', 'public', 'index.html'),
-    favicon: path.resolve(__dirname, 'client', 'public', 'favicon.ico')
+    template: path.resolve(__dirname, 'src', 'public', 'index.html'),
+    favicon: path.resolve(__dirname, 'src', 'public', 'favicon.ico'),
   })
 
   const providePlugin = new webpack.ProvidePlugin({
@@ -51,22 +51,22 @@ module.exports = (env) => {
   })
 
   return {
-    context: path.resolve(__dirname, 'client'),
+    context: path.resolve(__dirname, 'src'),
     entry: {
       bundle: ['babel-polyfill', './entry.js'],
     },
     output: {
-      filename: '[name].min.js?[hash]',
+      filename: 'javascripts/[name].min.js?[hash]',
       path: path.resolve(__dirname, 'public'),
     },
     resolve: {
       extensions: ['.js'],
       alias: {
-        Templates: path.resolve(__dirname, 'client', 'templates'),
-        Routes: path.resolve(__dirname, 'client', 'javascripts', 'routes'),
-        Contents: path.resolve(__dirname, 'client', 'templates', 'contents'),
-        Libraries: path.resolve(__dirname, 'client', 'javascripts', 'lib'),
-        Stylesheets: path.resolve(__dirname, 'client', 'stylesheets'),
+        Templates: path.resolve(__dirname, 'src', 'templates'),
+        Routes: path.resolve(__dirname, 'src', 'javascripts', 'routes'),
+        Contents: path.resolve(__dirname, 'src', 'templates', 'contents'),
+        Libraries: path.resolve(__dirname, 'src', 'javascripts', 'lib'),
+        Stylesheets: path.resolve(__dirname, 'src', 'stylesheets'),
       },
     },
     module: {
@@ -74,6 +74,20 @@ module.exports = (env) => {
         return /noparse/.test(content)
       },
       loaders: [
+        {
+          test: /\.js$/,
+          enforce: 'pre',
+          use: [
+            {
+              options: {
+                eslintPath: require.resolve('eslint'),
+                fix: true,
+              },
+              loader: require.resolve('eslint-loader'),
+            },
+          ],
+          exclude: [/[/\\]node_modules[/\\]/, /lib/],
+        },
         {
           test: require.resolve('jquery'),
           use: [{
@@ -101,10 +115,10 @@ module.exports = (env) => {
           loader: require.resolve('handlebars-loader'),
           query: {
             partialDirs: [
-              path.resolve(__dirname, 'client', 'templates', 'partials'),
+              path.resolve(__dirname, 'src', 'templates', 'partials'),
             ],
             helperDirs: [
-              path.resolve(__dirname, 'client', 'templates', 'helpers'),
+              path.resolve(__dirname, 'src', 'templates', 'helpers'),
             ],
           },
         },
@@ -127,7 +141,7 @@ module.exports = (env) => {
         },
         {
           test: /\.(?:le|c)ss$/,
-          exclude: path.resolve(__dirname, 'client', 'stylesheets', 'routes'),
+          exclude: path.resolve(__dirname, 'src', 'stylesheets', 'routes'),
           loader: extractText.extract({
             publicPath: '/',
             fallback: 'style-loader',
@@ -151,7 +165,7 @@ module.exports = (env) => {
         },
         {
           test: /\.(?:le|c)ss$/,
-          include: path.resolve(__dirname, 'client', 'stylesheets', 'routes'),
+          include: path.resolve(__dirname, 'src', 'stylesheets', 'routes'),
           loader: extractText.extract({
             publicPath: '/',
             fallback: require.resolve('style-loader'),

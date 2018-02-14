@@ -1,5 +1,7 @@
-import indexTemplate from 'Templates/index.hbs'
+import 'bootstrap-datepicker'
+import 'jquery-slimscroll'
 
+import indexTemplate from 'Templates/index.hbs'
 import styles from 'Stylesheets/routes/dashboard-1.less'
 
 import 'jquery-ui'
@@ -12,8 +14,7 @@ import 'icheck'
 import 'daterangepicker'
 import 'jvectormap'
 import '../lib/jquery-jvectormap-world-mill-en'
-import 'bootstrap-datepicker'
-import 'jquery-slimscroll'
+
 
 const index = {
   load(ctx, next) {

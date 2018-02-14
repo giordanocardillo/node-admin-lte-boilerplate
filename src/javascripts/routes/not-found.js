@@ -11,7 +11,7 @@ const notFound = {
     })).trigger('resize')
     next()
   },
-  show(ctx) {
+  show() {
   },
 }
 
