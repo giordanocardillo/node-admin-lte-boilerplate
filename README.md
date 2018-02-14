@@ -74,10 +74,26 @@ node-adminlte-boilerplate
                └── sidebar.hbs
 ```
 
-### `entry.js` file
-This is the application entrypoint file, here you can find the main libraries imports and initializations.
+## `public` folder
+The `public` folder holds all the static files from which your application gets stated on a webserver. Inside the 
+folder you can find:
+
+### `index.html` file
+Is the **homepage** of the application. all the application contents are rendered inside the 
+```html
+<div class="wrapper"></div>
+```
+you find here.
+
+### `favicon.ico` and `images/icon.png`
+Holds the application favicons, whilst the `favicon.ico` is just imported inside the `index.html` at compile time, the
+`images/icon.png` is used to generate al icon sizes for all the resolutions thanks to
+[favicons-webpack-plugin](https://github.com/jantimon/favicons-webpack-plugin).
 
 ## Javascripts
+
+### `entry.js` file
+This is the application entrypoint file, here you can find the main libraries imports and initializations.
 
 ### `javascripts` directory
 In this directory you find the main router file `router.js` which defines your application's routes.
