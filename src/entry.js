@@ -1,6 +1,9 @@
-require('./stylesheets/entry.less')
+import 'bootstrap'
+import 'admin-lte/dist/js/app'
 
-require('bootstrap')
-require('admin-lte/dist/js/app')
+import './stylesheets/entry.less'
 
-require('./javascripts/router')()
+
+import router from './javascripts/router'
+
+router()

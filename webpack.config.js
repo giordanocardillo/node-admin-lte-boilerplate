@@ -4,16 +4,20 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const noop = require('noop-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+const flexBugsFixes = require('postcss-flexbugs-fixes')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 module.exports = (env) => {
   const isProduction = env === 'production'
 
-  const clean = new CleanWebpackPlugin([path.resolve(__dirname, 'public')])
+  const clean = new CleanWebpackPlugin([path.resolve(__dirname, 'build')])
 
   const extractText = new ExtractTextPlugin({
-    filename: 'stylesheets/[name].min.css?[hash]',
+    filename: '[name].min.css?[hash]',
     allChunks: true,
   })
 
@@ -25,8 +29,29 @@ module.exports = (env) => {
 
   const htmlWebpackPlugin = new HtmlWebpackPlugin({
     inject: true,
-    template: path.resolve(__dirname, 'src', 'public', 'index.html'),
-    favicon: path.resolve(__dirname, 'src', 'public', 'favicon.ico'),
+    template: path.resolve(__dirname, 'public', 'index.html'),
+    favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
+    minify: false,
+  })
+
+  const favicons = new FaviconsWebpackPlugin({
+    logo: path.resolve(__dirname, 'public', 'images', 'icon.png'),
+    prefix: 'images/favicons/',
+    emitStats: false,
+    persistentCache: false,
+    inject: true,
+    icons: {
+      android: true,
+      appleIcon: true,
+      appleStartup: true,
+      coast: true,
+      favicons: true,
+      firefox: true,
+      opengraph: false,
+      twitter: true,
+      yandex: true,
+      windows: true,
+    },
   })
 
   const providePlugin = new webpack.ProvidePlugin({
@@ -40,24 +65,14 @@ module.exports = (env) => {
     'window.moment': require.resolve('moment'),
   })
 
-  const commonChunks = new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks(module) {
-      /*if (module.resource && (/^.*\.(css|less)$/).test(module.resource)) {
-        return false
-      }*/
-      return module.context && module.context.includes('node_modules')
-    },
-  })
-
   return {
     context: path.resolve(__dirname, 'src'),
     entry: {
       bundle: ['babel-polyfill', './entry.js'],
     },
     output: {
-      filename: 'javascripts/[name].min.js?[hash]',
-      path: path.resolve(__dirname, 'public'),
+      filename: '[name].min.js?[hash]',
+      path: path.resolve(__dirname, 'build'),
     },
     resolve: {
       extensions: ['.js'],
@@ -107,11 +122,11 @@ module.exports = (env) => {
         },
         {
           test: /\.js$/,
-          exclude: /(?:node_modules|public)/,
+          exclude: /(?:node_modules|build)/,
           loader: require.resolve('babel-loader'),
         }, {
           test: /\.(?:hbs|handlebars)$/,
-          exclude: /(?:node_modules|public)/,
+          exclude: /(?:node_modules|build)/,
           loader: require.resolve('handlebars-loader'),
           query: {
             partialDirs: [
@@ -151,6 +166,20 @@ module.exports = (env) => {
                 options: {
                   sourceMap: true,
                   minimize: true,
+                  importLoaders: 2,
+                },
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  sourceMap: true,
+                  ident: 'postcss',
+                  plugins: () => [
+                    flexBugsFixes,
+                    autoprefixer({
+                      flexbox: 'no-2009',
+                    }),
+                  ],
                 },
               },
               {
@@ -193,9 +222,9 @@ module.exports = (env) => {
     },
     plugins: [
       htmlWebpackPlugin,
+      favicons,
       clean,
       uglifyJS,
-      commonChunks,
       extractText,
       providePlugin,
     ],
