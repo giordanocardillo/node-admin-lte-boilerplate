@@ -75,18 +75,17 @@ node-adminlte-boilerplate
 ```
 
 ## `public` folder
-The `public` folder holds all the static files from which your application gets stated on a webserver. Inside the 
-folder you can find:
+The `public` folder holds all the static files from which your application gets started on a webserver. Inside the 
+folder you can find the following.
 
 ### `index.html` file
-Is the **homepage** of the application. all the application contents are rendered inside the 
+Is the **homepage** of the application. all the application contents are rendered inside the following html element.
 ```html
 <div class="wrapper"></div>
 ```
-you find here.
 
 ### `favicon.ico` and `images/icon.png` files
-Holds the application favicons, whilst the `favicon.ico` is just imported inside the `index.html` at compile time, the
+Are the application favicons, whilst the `favicon.ico` is just imported inside the `index.html` at compile time thanks to [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin), the
 `images/icon.png` is used to generate al icon sizes for all the resolutions thanks to
 [favicons-webpack-plugin](https://github.com/jantimon/favicons-webpack-plugin).
 
@@ -197,4 +196,4 @@ This folder holds all the sub-templates that need to be rendered inside the `ind
 This directory contains all the handlebars custom helpers and is automatically included by webpack, so the helpers can be used without path referencing. 
 
 ### `templates/partials` directory
-This directory contains all the partials (intended as parts of the main interface). This is just a destructuring of the main interface composition, to keep it all tidy. 
+This directory contains all the partials (intended as parts of the main interface). This is just a destructuring of the main interface composition, to keep it all tidy.
