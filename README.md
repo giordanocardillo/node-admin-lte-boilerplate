@@ -102,7 +102,7 @@ the linked homepage.
 ### `javascripts/lib` (`Libraries`) directory
 In this directory you find all the additional library files which aren't included in the nodejs packages build. 
 As an example, you can find there the `jquery-jvectormap-world-mill-en.js` from the
-[jquery vector map](https://jqvmap.com/) project. 
+[jvectormap](http://jvectormap.com) project. 
 
 This folder is mapped as `Libraries` inside the webpack configuration, so you can reference to this path
 just by requiring from `Libraries`, e.g:
