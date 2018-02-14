@@ -191,11 +191,10 @@ import indexTemplate from 'Templates/index.hbs'
 ### `templates/contents` directory
 This folder holds all the sub-templates that need to be rendered inside the `index.hbs` template by the
 `dynamicContent` that loads only templates defined in this directory.
+**NOTE** The `dynamicContent` helper was necessary because of a [handlebars-loader](https://github.com/pcardune/handlebars-loader) bug, which doesn't allow dynamic template import. When the library gets fixed, it could be removed from this boilerplate.
 
 ### `templates/helpers` directory
-
-TBD
+This directory contains all the handlebars custom helpers and is automatically included by webpack, so the helpers can be used without path referencing. 
 
 ### `templates/partials` directory
-
-TBD
+This directory contains all the partials (intended as parts of the main interface). This is just a destructuring of the main interface composition, to keep it all tidy. 
