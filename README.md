@@ -85,7 +85,7 @@ Is the **homepage** of the application. all the application contents are rendere
 ```
 you find here.
 
-### `favicon.ico` and `images/icon.png`
+### `favicon.ico` and `images/icon.png` files
 Holds the application favicons, whilst the `favicon.ico` is just imported inside the `index.html` at compile time, the
 `images/icon.png` is used to generate al icon sizes for all the resolutions thanks to
 [favicons-webpack-plugin](https://github.com/jantimon/favicons-webpack-plugin).
@@ -174,13 +174,13 @@ unique name thanks to CSS-Modules.
 The templates directory contains all the [Handlebars](http://handlebarsjs.com/) templates of the application.
 At the directory root there is the `index.hbs` file, which holds the application base structure.
 
-The `index.hbs` file holds a `dynamicTemplate` helper, which gets a `template` parameter that's a string matching
+The `index.hbs` file holds a `dynamicContent` helper, which gets a `template` parameter that's a string matching
 the subtemplate name to load in that page. To be more clear, every route uses the index template and renders inside
 of it it's own subtemplate, so the main structure isn't altered and always looks the same.
 
 You can of course make a route using a different layout and, in that case, you can just avoid using `index.hbs`.
 
-**NOTE** All templates loaded from the `dynamicTemplate` helper need to be inside the `Templates/contents` folder.
+**NOTE** All templates loaded from the `dynamicContent` helper need to be inside the `Templates/contents` folder.
 
 This folder is **aliased** as `Templates` inside the webpack configuration, so you can reference to this path
 just by requiring from `Templates`, e.g:
@@ -188,3 +188,14 @@ just by requiring from `Templates`, e.g:
 import indexTemplate from 'Templates/index.hbs'
 ```
 
+### `templates/contents` directory
+This folder holds all the sub-templates that need to be rendered inside the `index.hbs` template by the
+`dynamicContent` that loads only templates defined in this directory.
+
+### `templates/helpers` directory
+
+TBD
+
+### `templates/partials` directory
+
+TBD
