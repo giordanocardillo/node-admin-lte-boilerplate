@@ -21,58 +21,7 @@ any file referenced in the project sources.
 Once you have your project ready for production, just run the `npm run build` (or `yarn build`) script and
 that will start a production ready build inside a `build` directory at the root of your application
 
-## Folder structure
-``` 
-node-adminlte-boilerplate
-   ├── .babelrc
-   ├── .editorconfig
-   ├── .eslintrc.js
-   ├── .gitignore
-   ├── LICENSE
-   ├── package.json
-   ├── README.md
-   ├── webpack.config.js
-   ├── yarn.lock
-   ├── public
-   │   ├── favicon.ico
-   │   ├── index.html
-   │   └── images
-   │       └── icon.png
-   └── src
-       ├── entry.js
-       ├── javascripts
-       │   ├── router.js
-       │   ├── lib
-       │   │   └── jquery-jvectormap-world-mill-en.js
-       │   └── routes
-       │       ├── index.js
-       │       └── not-found.js
-       ├── stylesheets
-       │   ├── entry.less
-       │   ├── global.less
-       │   ├── variables.less
-       │   ├── lib
-       │   │   ├── bootstrap.less
-       │   │   └── datepicker.less
-       │   └── routes
-       │       ├── dashboard-1.less
-       │       └── not-found.less
-       └── templates
-           ├── index.hbs
-           ├── contents
-           │   ├── dashboard-1.hbs
-           │   └── not-found.hbs
-           ├── helpers
-           │   ├── dynamicContent.js
-           │   ├── eq.js
-           │   └── toId.js
-           └── partials
-               ├── content-header.hbs
-               ├── control-sidebar.hbs
-               ├── footer.hbs
-               ├── header.hbs
-               └── sidebar.hbs
-```
+
 
 ## `public` folder
 The `public` folder holds all the static files from which your application gets started on a webserver. Inside the 
