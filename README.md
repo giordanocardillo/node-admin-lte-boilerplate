@@ -21,8 +21,6 @@ any file referenced in the project sources.
 Once you have your project ready for production, just run the `npm run build` (or `yarn build`) script and
 that will start a production ready build inside a `build` directory at the root of your application
 
-
-
 ## `public` folder
 The `public` folder holds all the static files from which your application gets started on a webserver. Inside the 
 folder you can find the following.
