@@ -232,7 +232,11 @@ module.exports = (env) => {
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       publicPath: '/',
-      historyApiFallback: true,
+      historyApiFallback: {
+       rewrites: [
+         { from: /^\/$/, to: '/index.html' },
+       ]
+      },
       port: 3000,
     },
   }
