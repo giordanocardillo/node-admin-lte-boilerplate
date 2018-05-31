@@ -73,6 +73,7 @@ module.exports = (env) => {
     output: {
       filename: '[name].min.js?[hash]',
       path: path.resolve(__dirname, 'build'),
+      publicPath: '/',
     },
     resolve: {
       extensions: ['.js'],
